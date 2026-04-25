@@ -814,7 +814,6 @@ async function mountProductsPage(editProductId = "") {
     saveMessage.textContent = "";
 
     const editingId = form.dataset.editingId || "";
-    const payload = buildProductPayload("", form.dataset.currentImageData || "");
     const validationError = validateProductPayload(payload);
 
     if (validationError) {
