@@ -869,15 +869,8 @@ async function mountProductsPage(editProductId = "") {
         saveMessage.textContent = "Ürün başarıyla güncellendi.";
       } else {
         await createProduct(payload);
-        await createProduct(payload);
 
-        saveMessage.textContent = "Ürün başarıyla kaydedildi ✅";
-        saveMessage.style.color = "#00ffae";
-        saveMessage.style.fontWeight = "600";
-
-        setTimeout(() => {
-          saveMessage.textContent = "";
-        }, 3000);
+        saveMessage.textContent = "Ürün başarıyla kaydedildi.";
       }
 
       form.reset();
