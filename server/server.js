@@ -41,10 +41,11 @@ const PORT = process.env.PORT || 5000;
 // Önce DB bağlan, sonra server aç
 connectDB()
   .then(() => {
-    app.listen(PORT, () => {
+    app.listen(PORT, "0.0.0.0", () => {
       console.log(`Server ${PORT} portunda çalışıyor`);
     });
   })
   .catch((error) => {
-    console.error("Uygulama başlatılamadı:", error.message);
+    console.error("Uygulama başlatılamadı:", error);
+    process.exit(1);
   });
