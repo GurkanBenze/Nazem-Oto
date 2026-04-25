@@ -813,9 +813,14 @@ async function mountProductsPage(editProductId = "") {
     e.preventDefault();
     saveMessage.textContent = "";
 
-    const editingId = form.dataset.editingId || "";
-    const payload = buildProductPayload("panel", form.dataset.currentImageData || "");
-    const validationError = validateProductPayload(payload);
+ const editingId = form.dataset.editingId || "";
+
+const payload = buildProductPayload(
+  "",
+  form.dataset.currentImageData || ""
+);
+
+const validationError = validateProductPayload(payload);
 
     if (validationError) {
       saveMessage.textContent = validationError;
@@ -1039,14 +1044,18 @@ async function mountProductPanel(selectedProductId = "") {
       return;
     }
 
-    const base = await fetchProductById(productId).catch(() => null);
-    if (!base) {
-      saveMsg.textContent = "Lütfen önce soldan bir ürün seç.";
-      return;
-    }
+const base = await fetchProductById(productId).catch(() => null);
+if (!base) {
+  saveMsg.textContent = "Lütfen önce soldan bir ürün seç.";
+  return;
+}
 
-    const payload = buildProductPayload("panel", form.dataset.currentImageData || base.urunGorselData || "");
-    const validationError = validateProductPayload(payload);
+const payload = buildProductPayload(
+  "panel",
+  form.dataset.currentImageData || base?.urunGorselData || ""
+);
+
+const validationError = validateProductPayload(payload);
 
     if (validationError) {
       saveMsg.textContent = validationError;
