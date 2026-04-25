@@ -282,25 +282,27 @@ if (product.urunStogu < 0) return "Stok negatif olamaz.";
 
 function buildProductPayload(prefix = "", baseImageData = "") {
   const get = (id) => document.getElementById(`${prefix}${id}`);
+  const val = (id) => get(id)?.value?.trim() || "";
+  const num = (id) => Number(val(id)) || 0;
 
   return {
-    slug: slugify(get("UrunAdi").value.trim()),
-    urunKategori: get("UrunKategori").value.trim(),
-    urunAltKategori: get("UrunAltKategori").value.trim(),
-    urunAdi: get("UrunAdi").value.trim(),
-    aracMarkasi: get("AracMarkasi")?.value.trim() || "",
-    urunBarkodu: get("UrunBarkodu").value.trim(),
-    urunOEM: get("UrunOEM").value.trim(),
-    urunKodu: get("UrunKodu").value.trim(),
-    urunMarkasi: get("UrunMarkasi").value.trim(),
-    urunModeli: get("UrunModeli").value.trim(),
-    urunYili: get("UrunYili").value.trim(),
-    urunAciklama: get("UrunAciklama").value.trim(),
-    urunFiyati: Number(get("UrunFiyati").value) || 0,
-    urunStogu: Number(get("UrunStogu").value) || 0,
-    aktif: get("UrunAktif").value === "true",
-    alisFiyati: Number(get("AlisFiyati").value) || 0,
-    karMarji: Number(get("KarMarji").value) || 0,
+    slug: slugify(val("UrunAdi")),
+    urunKategori: val("UrunKategori"),
+    urunAltKategori: val("UrunAltKategori"),
+    urunAdi: val("UrunAdi"),
+    aracMarkasi: val("AracMarkasi"),
+    urunBarkodu: val("UrunBarkodu"),
+    urunOEM: val("UrunOEM"),
+    urunKodu: val("UrunKodu"),
+    urunMarkasi: val("UrunMarkasi"),
+    urunModeli: val("UrunModeli"),
+    urunYili: val("UrunYili"),
+    urunAciklama: val("UrunAciklama"),
+    urunFiyati: num("UrunFiyati"),
+    urunStogu: num("UrunStogu"),
+    aktif: val("UrunAktif") === "true",
+    alisFiyati: num("AlisFiyati"),
+    karMarji: num("KarMarji"),
     urunGorselData: baseImageData || "",
   };
 }
