@@ -1,0 +1,569 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Panel | Nazem Oto Yedek Parça</title>
+    <link rel="stylesheet" href="css/admin.css" />
+  </head>
+  <body>
+    <div id="login-screen" class="login-screen">
+      <div class="login-box">
+        <h2>Yönetici Girişi</h2>
+        <input type="text" id="admin-email" placeholder="E-posta" />
+        <input type="password" id="admin-pass" placeholder="Şifre" />
+        <button id="login-btn">Giriş Yap</button>
+        <p id="login-error"></p>
+      </div>
+    </div>
+
+    <div id="dashboard" class="dashboard hidden">
+      <aside class="sidebar">
+        <div>
+          <h3>Kontrol Paneli</h3>
+          <nav>
+            <a href="index.html" class="home-btn">🏠 Anasayfa</a>
+
+            <button data-page="products" class="active">Ürün Yönetimi</button>
+            <button data-page="product-panel">Ürün Paneli</button>
+            <button data-page="categories">Kategori Yönetimi</button>
+            <button data-page="banners">Banner Yönetimi</button>
+          </nav>
+        </div>
+
+        <button id="logout-btn" class="logout">Çıkış</button>
+      </aside>
+
+      <main class="content">
+        <header>
+          <h1 id="page-title">Hoş geldiniz 👋</h1>
+        </header>
+        <section id="page-content"></section>
+      </main>
+    </div>
+
+    <template id="products-template">
+      <div class="card">
+        <h2 id="productsFormTitle">Ürün Ekle</h2>
+        <form id="product-form" class="product-form">
+          <div id="editModeBanner" class="warn-message hidden">
+            Düzenleme modu açık. Buradaki kayıt yeni ürün eklemek yerine seçili
+            ürünü günceller.
+          </div>
+
+          <div class="form-grid">
+            <div class="field">
+              <label for="urunKategori">Kategori</label>
+              <select id="urunKategori"></select>
+            </div>
+
+            <div class="field">
+              <label for="urunAltKategori">Alt Kategori</label>
+              <select id="urunAltKategori">
+                <option value="">Önce kategori seçin</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="urunAdi">Ürün Adı</label>
+              <input type="text" id="urunAdi" required />
+            </div>
+
+            <div class="field">
+              <label for="urunGorseli">Ürün Görseli</label>
+              <input type="file" id="urunGorseli" accept="image/*" />
+            </div>
+
+            <div class="field">
+              <label for="urunBarkodu">Ürün Barkodu</label>
+              <input type="text" id="urunBarkodu" />
+            </div>
+
+            <div class="field">
+              <label for="urunOEM">Ürün OEM Kodu</label>
+              <input type="text" id="urunOEM" />
+            </div>
+
+            <div class="field">
+              <label for="urunKodu">Ürün Kodu</label>
+              <input type="text" id="urunKodu" />
+            </div>
+
+            <div class="field">
+              <label for="aracMarkasi">Araç Markası</label>
+              <select id="aracMarkasi" class="form-select">
+                <option value="">Araç markası seçin</option>
+                <option value="Honda">Honda</option>
+                <option value="Renault">Renault</option>
+                <option value="BMW">BMW</option>
+                <option value="Fiat">Fiat</option>
+                <option value="Opel">Opel</option>
+                <option value="Mercedes">Mercedes</option>
+                <option value="Audi">Audi</option>
+                <option value="Ford">Ford</option>
+                <option value="Toyota">Toyota</option>
+                <option value="Volkswagen">Volkswagen</option>
+                <option value="Peugeot">Peugeot</option>
+                <option value="Citroen">Citroen</option>
+                <option value="Hyundai">Hyundai</option>
+                <option value="Kia">Kia</option>
+                <option value="Nissan">Nissan</option>
+                <option value="Skoda">Skoda</option>
+                <option value="Seat">Seat</option>
+                <option value="Dacia">Dacia</option>
+
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="urunMarkasi">Ürün Markası</label>
+              <input type="text" id="urunMarkasi" />
+            </div>
+
+            <div class="field">
+              <label for="urunModeli">Ürün Modeli</label>
+              <input type="text" id="urunModeli" />
+            </div>
+
+            <div class="field">
+              <label for="urunYili">Ürün Yılı</label>
+              <input type="text" id="urunYili" placeholder="Örn: 2012-2016" />
+            </div>
+
+            <div class="field">
+              <label for="urunFiyati">Ürün Satış Fiyatı</label>
+              <input
+                type="number"
+                id="urunFiyati"
+                step="0.01"
+                min="0"
+                placeholder="0.00"
+              />
+            </div>
+
+            <div class="field">
+              <label for="urunStogu">Ürün Stoğu</label>
+              <input type="number" id="urunStogu" min="0" placeholder="0" />
+            </div>
+
+             <div class="field">
+                  <label for="urunAktif">Ürün Durumu</label>
+                  <select id="urunAktif">
+                    <option value="true" selected>Aktif</option>
+                    <option value="false">Pasif</option>
+                  </select>
+                </div>
+
+            <div class="field full">
+              <label for="urunAciklama">Açıklama</label>
+              <textarea
+                id="urunAciklama"
+                placeholder="Ürünle ilgili detayları yazın"
+              ></textarea>
+            </div>
+          </div>
+
+          <div class="card">
+            <h2>Maliyet ve Kar Marjı Hesaplama</h2>
+            <div class="calc-box">
+              <div class="field">
+                <label for="alisFiyati">Alış Fiyatı (TL)</label>
+                <input
+                  type="number"
+                  id="alisFiyati"
+                  step="0.01"
+                  min="0"
+                  placeholder="10"
+                />
+              </div>
+
+              <div class="field">
+                <label for="karMarji">Kar Marjı (%)</label>
+                <input
+                  type="number"
+                  id="karMarji"
+                  step="0.01"
+                  min="0"
+                  placeholder="30"
+                />
+              </div>
+
+              <div class="field">
+                <label>Hesaplanan Satış Fiyatı</label>
+                <div id="hesaplananSatis" class="price-result">0.00 TL</div>
+              </div>
+
+              <div class="actions">
+                <button type="button" id="hesaplaBtn" class="btn btn-secondary">
+                  Hesapla
+                </button>
+                <button type="button" id="fiyataYazBtn" class="btn btn-primary">
+                  Satış Fiyatına Yaz
+                </button>
+              </div>
+            </div>
+            <p class="mini">
+              Örnek: 10 TL alış + %30 marj = 13 TL satış fiyatı
+            </p>
+          </div>
+
+          <div class="card">
+            <h2>Görsel Önizleme</h2>
+            <img
+              id="gorselOnizleme"
+              class="preview-img"
+              alt="Ürün görsel önizleme"
+            />
+            <p class="mini">Görsel seçersen burada önizleme görünür.</p>
+          </div>
+
+          <div class="actions">
+            <button type="submit" id="productSubmitBtn" class="btn btn-primary">
+              Ürünü Kaydet
+            </button>
+            <button type="reset" class="btn btn-secondary">
+              Formu Temizle
+            </button>
+          </div>
+
+          <div id="saveMessage" class="success-message"></div>
+        </form>
+      </div>
+
+      <div class="card">
+        <div class="toolbar">
+          <div class="field">
+            <label for="filterCategory">Kategoriye Göre Filtrele</label>
+            <select id="filterCategory"></select>
+          </div>
+          <div class="field">
+            <label for="searchProduct">Ürün Ara</label>
+            <input
+              type="text"
+              id="searchProduct"
+              placeholder="Ürün adı, OEM, barkod, kod"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Kayıtlı Ürünler</h2>
+        <div class="table-wrap">
+          <table class="product-table">
+            <thead>
+              <tr>
+                <th>Ürün</th>
+                <th>Kategori</th>
+                <th>Kod / Barkod</th>
+                <th>Araç / Ürün Markası / Model</th>
+                <th>Yıl</th>
+                <th>Stok</th>
+                <th>Durum</th>
+                <th>Alış</th>
+                <th>Marj</th>
+                <th>Satış</th>
+                <th>İşlem</th>
+              </tr>
+            </thead>
+            <tbody id="productsTableBody">
+              <tr>
+                <td colspan="11" class="mini">Henüz ürün eklenmedi.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </template>
+
+    <template id="product-panel-template">
+      <div class="panel-grid">
+        <div class="stack">
+          <div class="card">
+            <h2>Ürün Listesi</h2>
+            <div class="field">
+              <label for="panelSearchProduct">Ürün Ara</label>
+              <input
+                type="text"
+                id="panelSearchProduct"
+                placeholder="Ürün adı, OEM, barkod, kod"
+              />
+            </div>
+            <div class="field">
+              <label for="panelFilterCategory">Kategoriye Göre Filtrele</label>
+              <select id="panelFilterCategory"></select>
+            </div>
+            <div id="panelProductList" class="product-list"></div>
+          </div>
+        </div>
+
+        <div class="stack">
+          <div class="card">
+            <h2 id="panelFormTitle">Ürün Güncelle</h2>
+            <div class="warn-message">
+              Bu alan ürün güncelleme için ayrıldı. Soldan bir ürün seç, tüm
+              alanlar dolu gelsin ve direkt güncelle.
+            </div>
+            <form id="panel-product-form" class="product-form">
+              <div class="form-grid">
+                <div class="field">
+                  <label for="panelUrunKategori">Kategori</label>
+                  <select id="panelUrunKategori"></select>
+                </div>
+
+                <div class="field">
+                  <label for="panelUrunAltKategori">Alt Kategori</label>
+                  <select id="panelUrunAltKategori">
+                    <option value="">Önce kategori seçin</option>
+                  </select>
+                </div>
+
+                <div class="field">
+                  <label for="panelUrunAdi">Ürün Adı</label>
+                  <input type="text" id="panelUrunAdi" required />
+                </div>
+
+                <div class="field">
+                  <label for="panelUrunGorseli">Ürün Görseli</label>
+                  <input type="file" id="panelUrunGorseli" accept="image/*" />
+                </div>
+
+                <div class="field">
+                  <label for="panelUrunBarkodu">Ürün Barkodu</label>
+                  <input type="text" id="panelUrunBarkodu" />
+                </div>
+
+                <div class="field">
+                  <label for="panelUrunOEM">Ürün OEM Kodu</label>
+                  <input type="text" id="panelUrunOEM" />
+                </div>
+
+                <div class="field">
+                  <label for="panelUrunKodu">Ürün Kodu</label>
+                  <input type="text" id="panelUrunKodu" />
+                </div>
+
+                <div class="field">
+                  <label for="panelAracMarkasi">Araç Markası</label>
+                  <select id="panelAracMarkasi" class="form-select">
+                    <option value="">Araç markası seçin</option>
+                    <option value="Honda">Honda</option>
+                    <option value="Renault">Renault</option>
+                    <option value="BMW">BMW</option>
+                    <option value="Fiat">Fiat</option>
+                    <option value="Opel">Opel</option>
+                    <option value="Mercedes">Mercedes</option>
+                    <option value="Audi">Audi</option>
+                    <option value="Ford">Ford</option>
+                    <option value="Toyota">Toyota</option>
+                    <option value="Volkswagen">Volkswagen</option>
+                    <option value="Peugeot">Peugeot</option>
+                    <option value="Citroen">Citroen</option>
+                    <option value="Hyundai">Hyundai</option>
+                    <option value="Kia">Kia</option>
+                    <option value="Nissan">Nissan</option>
+                    <option value="Skoda">Skoda</option>
+                    <option value="Seat">Seat</option>
+                    <option value="Dacia">Dacia</option>
+                  </select>
+                </div>
+
+                <div class="field">
+                  <label for="panelUrunMarkasi">Ürün Markası</label>
+                  <input type="text" id="panelUrunMarkasi" />
+                </div>
+
+                <div class="field">
+                  <label for="panelUrunModeli">Ürün Modeli</label>
+                  <input type="text" id="panelUrunModeli" />
+                </div>
+
+                <div class="field">
+                  <label for="panelUrunYili">Ürün Yılı</label>
+                  <input type="text" id="panelUrunYili" />
+                </div>
+
+                <div class="field">
+                  <label for="panelUrunFiyati">Satış Fiyatı</label>
+                  <input
+                    type="number"
+                    id="panelUrunFiyati"
+                    step="0.01"
+                    min="0"
+                  />
+                </div>
+                <div class="field">
+                  <label for="panelUrunAktif">Ürün Durumu</label>
+                  <select id="panelUrunAktif">
+                    <option value="true">Aktif</option>
+                    <option value="false">Pasif</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="panelUrunStogu">Stok</label>
+                  <input type="number" id="panelUrunStogu" min="0" />
+                </div>
+
+                <div class="field full">
+                  <label for="panelUrunAciklama">Açıklama</label>
+                  <textarea id="panelUrunAciklama"></textarea>
+                </div>
+              </div>
+
+              <div class="card">
+                <h2>Maliyet ve Marj</h2>
+                <div class="calc-box">
+                  <div class="field">
+                    <label for="panelAlisFiyati">Alış Fiyatı</label>
+                    <input
+                      type="number"
+                      id="panelAlisFiyati"
+                      step="0.01"
+                      min="0"
+                    />
+                  </div>
+
+                  <div class="field">
+                    <label for="panelKarMarji">Kar Marjı (%)</label>
+                    <input
+                      type="number"
+                      id="panelKarMarji"
+                      step="0.01"
+                      min="0"
+                    />
+                  </div>
+
+                  <div class="field">
+                    <label>Hesaplanan Satış</label>
+                    <div id="panelHesaplananSatis" class="price-result">
+                      0.00 TL
+                    </div>
+                  </div>
+
+                  <div class="actions">
+                    <button
+                      type="button"
+                      id="panelHesaplaBtn"
+                      class="btn btn-secondary"
+                    >
+                      Hesapla
+                    </button>
+                    <button
+                      type="button"
+                      id="panelFiyataYazBtn"
+                      class="btn btn-primary"
+                    >
+                      Satış Fiyatına Yaz
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card">
+                <h2>Görsel Önizleme</h2>
+                <img
+                  id="panelGorselOnizleme"
+                  class="preview-img"
+                  alt="Ürün görsel önizleme"
+                />
+                <p class="mini">Yeni görsel seçmezsen mevcut görsel korunur.</p>
+              </div>
+
+              <div class="actions">
+                <button type="submit" class="btn btn-primary">
+                  Ürünü Güncelle
+                </button>
+                <button
+                  type="button"
+                  id="panelDeleteBtn"
+                  class="btn btn-danger"
+                >
+                  Ürünü Sil
+                </button>
+              </div>
+
+              <div id="panelSaveMessage" class="success-message"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </template>
+
+    <template id="categories-template">
+      <div class="card">
+        <h2>Kategori ve Alt Kategori Ekle</h2>
+        <form id="category-form" class="category-form">
+          <div class="form-grid">
+            <div class="field">
+              <label for="newCategoryName">Yeni Kategori Adı</label>
+              <input
+                type="text"
+                id="newCategoryName"
+                placeholder="Örn: Motor Ürünleri"
+              />
+            </div>
+
+            <div class="field">
+              <label for="newSubCategoryName">Yeni Alt Kategori Adı</label>
+              <input
+                type="text"
+                id="newSubCategoryName"
+                placeholder="Örn: Halat ve Kayış"
+              />
+            </div>
+          </div>
+
+          <div class="actions">
+            <button type="button" id="addCategoryBtn" class="btn btn-primary">
+              Kategori Ekle
+            </button>
+            <button
+              type="button"
+              id="addSubCategoryBtn"
+              class="btn btn-secondary"
+            >
+              Alt Kategori Ekle
+            </button>
+          </div>
+
+          <div class="field">
+            <label for="existingCategorySelect"
+              >Alt kategori eklenecek kategori</label
+            >
+            <select id="existingCategorySelect"></select>
+          </div>
+
+          <div id="categoryMessage" class="success-message"></div>
+        </form>
+      </div>
+
+      <div class="card">
+        <h2>Mevcut Kategoriler</h2>
+        <div class="table-wrap">
+          <table class="category-table">
+            <thead>
+              <tr>
+                <th>Kategori</th>
+                <th>Alt Kategoriler</th>
+                <th>İşlem</th>
+              </tr>
+            </thead>
+            <tbody id="categoryTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </template>
+
+    <template id="banners-template">
+      <div class="info-box">
+        <h2>Banner Yönetimi</h2>
+        <p>
+          Buraya ana sayfa slider veya kampanya banner alanlarını
+          ekleyebilirsin.
+        </p>
+      </div>
+    </template>
+
+    <script src="js/admin.js"></script>
+  </body>
+</html>

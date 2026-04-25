@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nazem Oto Yedek Parça</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="header-inner">
+        <a href="index.html" class="logo">Nazem Oto Yedek Parça</a>
+
+        <nav class="main-nav">
+          <a href="index.html">Ana Sayfa</a>
+
+          <div class="nav-dropdown">
+            <button
+              class="nav-dropdown-btn"
+              id="categories-menu-btn"
+              type="button"
+            >
+              Kategoriler ▾
+            </button>
+            <div class="nav-dropdown-menu" id="categories-menu"></div>
+          </div>
+
+          <a href="brands.html">Araç Markaları</a>
+          <a href="about.html">Hakkımızda</a>
+          <a href="contact.html">İletişim</a>
+          <a href="admin.html" class="admin-link">Admin Paneli</a>
+        </nav>
+      </div>
+    </header>
+
+    <section class="hero-slider" id="hero-slider">
+      <div class="slides">
+        <div class="slide active">
+          <img
+            src="https://images.unsplash.com/photo-1486006920555-c77dcf18193c?auto=format&fit=crop&w=1400&q=80"
+            alt="Kaliteli Oto Yedek Parça"
+          />
+          <div class="caption">
+            <h2>Kaliteli Oto Yedek Parça</h2>
+            <p>Güvenilir markalar, uygun fiyatlar, hızlı ürün keşfi</p>
+          </div>
+        </div>
+        <div class="slide">
+          <img
+            src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1400&q=80"
+            alt="Performans Parçaları"
+          />
+          <div class="caption">
+            <h2>Performans Parçaları</h2>
+            <p>Aracınıza uygun parçayı kolayca bulun</p>
+          </div>
+        </div>
+        <div class="slide">
+          <img
+            src="https://images.unsplash.com/photo-1517524206127-48bbd363f3d7?auto=format&fit=crop&w=1400&q=80"
+            alt="Motor ve Yağ Ürünleri"
+          />
+          <div class="caption">
+            <h2>Motor ve Yağ Ürünleri</h2>
+            <p>Dayanıklılık ve performans için doğru seçimler</p>
+          </div>
+        </div>
+        <div class="slide">
+          <img
+            src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=1400&q=80"
+            alt="Elektrik ve Aydınlatma"
+          />
+          <div class="caption">
+            <h2>Elektrik ve Aydınlatma</h2>
+            <p>Modern vitrin, detaylı ürün sayfası, hızlı iletişim</p>
+          </div>
+        </div>
+      </div>
+
+      <button class="nav-btn prev" type="button">‹</button>
+      <button class="nav-btn next" type="button">›</button>
+      <div class="dots" id="hero-dots"></div>
+    </section>
+
+    <section class="search-section" id="search-area">
+      <div class="container">
+        <div class="search-card">
+          <div class="search-top">
+            <div>
+              <h2>Ürün Arama ve Filtreleme</h2>
+              <p>Örn: BMW far, 2012 BMW ön far, Bosch balata</p>
+            </div>
+          </div>
+
+          <div class="search-grid">
+            <div class="field field-grow">
+              <label for="searchInput">Ürün Arama</label>
+              <input
+                type="text"
+                id="searchInput"
+                placeholder="Ürün adı, OEM, barkod, marka, model..."
+              />
+            </div>
+
+            <div class="field">
+              <label for="filterCategory">Kategori</label>
+              <select id="filterCategory"></select>
+            </div>
+
+            <div class="field">
+              <label for="filterBrand">Marka</label>
+              <select id="filterBrand"></select>
+            </div>
+
+            <div class="field">
+              <label for="filterModel">Model</label>
+              <select id="filterModel"></select>
+            </div>
+
+            <div class="field">
+              <label for="filterYear">Yıl</label>
+              <select id="filterYear"></select>
+            </div>
+
+            <div class="field checkbox-field">
+              <label>
+                <input type="checkbox" id="stockOnly" />
+                Sadece stokta olanlar
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <main>
+      <section class="results-section" id="resultsSection">
+        <div class="container">
+          <div class="section-head">
+            <h2>Arama Sonuçları</h2>
+            <span id="resultCount" class="result-count">0 ürün</span>
+          </div>
+          <div id="searchResults" class="products-grid"></div>
+        </div>
+      </section>
+
+      <section class="category-showcase">
+        <div class="container">
+          <div class="section-head">
+            <h2>Kategoriler</h2>
+          </div>
+          <div id="category-area"></div>
+        </div>
+      </section>
+    </main>
+
+    <footer id="contact-area">
+      <div class="container footer-wrap">
+        <div class="footer-top">
+          <p>📞 0850 305 20 55<br /><span>Destek Hattı</span></p>
+          <p>💬 0552 310 40 55<br /><span>WhatsApp</span></p>
+        </div>
+
+        <div class="footer-grid">
+          <div>
+            <h4>Kurumsal</h4>
+            <a href="about.html">Hakkımızda</a>
+            <a href="#">Gizlilik</a>
+            <a href="contact.html">İletişim</a>
+          </div>
+
+          <div>
+            <h4>Hızlı Erişim</h4>
+            <a href="#category-area">Kategoriler</a>
+            <a href="brands.html">Markalar</a>
+            <a href="#search-area">Ürün Ara</a>
+          </div>
+          <div>
+            <h4>Popüler Markalar</h4>
+            <a href="brand.html?brand=Bosch">BOSCH</a>
+            <a href="brand.html?brand=Valeo">Valeo</a>
+            <a href="brand.html?brand=Delphi">Delphi</a>
+          </div>
+          <div>
+            <h4>Kategoriler</h4>
+            <div id="footerCategories"></div>
+          </div>
+        </div>
+
+        <p class="copy">© 2026 Nazem Oto Yedek Parça — Tüm Hakları Saklıdır.</p>
+      </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+  </body>
+</html>

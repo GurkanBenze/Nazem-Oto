@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kategori | Nazem Oto Yedek Parça</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="index.html" class="logo">Nazem Oto Yedek Parça</a>
+    <nav class="main-nav">
+      <a href="index.html">Ana Sayfa</a>
+
+      <div class="nav-dropdown">
+        <button class="nav-dropdown-btn" id="categories-menu-btn" type="button">Kategoriler ▾</button>
+        <div class="nav-dropdown-menu" id="categories-menu"></div>
+      </div>
+
+      <a href="index.html#search-area">Ürün Ara</a>
+      <a href="brands.html">Araç Markaları</a>
+      <a href="about.html">Hakkımızda</a>
+      <a href="contact.html">İletişim</a>
+    </nav>
+  </div>
+</header>
+
+<main class="category-page">
+  <div class="container">
+    <h1 id="cat-title"></h1>
+
+    <div class="page-filters">
+      <input id="searchInput" type="text" placeholder="Ürün ara..." />
+      <select id="brandFilter"></select>
+      <select id="modelFilter"></select>
+    </div>
+
+    <div id="productList" class="products-grid"></div>
+  </div>
+</main>
+
+<script src="js/category.js"></script>
+</body>
+</html>
