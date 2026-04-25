@@ -1,7 +1,7 @@
 const API_BASE =
   window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
     ? "http://localhost:5002/api"
-    : "/api";
+    : "https://nazem-oto.onrender.com/api";
 
 const WHATSAPP_PHONE = "905523104055";
 const PLACEHOLDER_IMAGE = "images/no-image.png";
