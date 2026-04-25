@@ -495,7 +495,12 @@ select option {
   border-radius: 14px;
   background: rgba(255, 255, 255, 0.04);
 }
-
+.success-message {
+  color: #00ffae;
+  font-weight: 600;
+  margin-top: 10px;
+  transition: all 0.3s ease;
+}
 .no-image {
   width: 100%;
   min-height: 280px;

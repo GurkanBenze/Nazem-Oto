@@ -194,14 +194,15 @@ function fillSelect(selectEl, values, placeholder, selectedValue = "") {
   if (!selectEl) return;
 
   const uniqueSorted = [...new Set(values.filter(Boolean))].sort((a, b) =>
-    String(a).localeCompare(String(b), "tr")
+    String(a).localeCompare(String(b), "tr"),
   );
 
   selectEl.innerHTML =
     `<option value="">${placeholder}</option>` +
     uniqueSorted
       .map((value) => {
-        const selected = String(value) === String(selectedValue) ? "selected" : "";
+        const selected =
+          String(value) === String(selectedValue) ? "selected" : "";
         return `<option value="${escapeHtml(value)}" ${selected}>${escapeHtml(value)}</option>`;
       })
       .join("");
@@ -211,7 +212,7 @@ async function populateCategorySelect(
   selectEl,
   includePlaceholder = true,
   selectedValue = "",
-  placeholderText = "Kategori seçin"
+  placeholderText = "Kategori seçin",
 ) {
   if (!selectEl) return;
 
@@ -230,7 +231,7 @@ async function populateCategorySelect(
 
   [...state.categories]
     .sort((a, b) =>
-      String(a.kategoriAdi).localeCompare(String(b.kategoriAdi), "tr")
+      String(a.kategoriAdi).localeCompare(String(b.kategoriAdi), "tr"),
     )
     .forEach((category) => {
       const option = document.createElement("option");
@@ -241,14 +242,19 @@ async function populateCategorySelect(
     });
 }
 
-async function populateSubCategories(categorySelect, subCategorySelect, selectedSubCategory = "") {
+async function populateSubCategories(
+  categorySelect,
+  subCategorySelect,
+  selectedSubCategory = "",
+) {
   if (!subCategorySelect) return;
 
   const selectedCategory = categorySelect?.value || "";
   subCategorySelect.innerHTML = "";
 
   if (!selectedCategory) {
-    subCategorySelect.innerHTML = '<option value="">Önce kategori seçin</option>';
+    subCategorySelect.innerHTML =
+      '<option value="">Önce kategori seçin</option>';
     return;
   }
 
@@ -270,11 +276,11 @@ async function populateSubCategories(categorySelect, subCategorySelect, selected
 }
 
 function validateProductPayload(product) {
- if (!product.urunKategori) return "Kategori seçin.";
-if (!product.urunAdi) return "Ürün adı zorunlu.";
-if (!product.aracMarkasi) return "Araç markası seçin.";
-if (product.urunFiyati <= 0) return "Geçerli fiyat girin.";
-if (product.urunStogu < 0) return "Stok negatif olamaz.";
+  if (!product.urunKategori) return "Kategori seçin.";
+  if (!product.urunAdi) return "Ürün adı zorunlu.";
+  if (!product.aracMarkasi) return "Araç markası seçin.";
+  if (product.urunFiyati <= 0) return "Geçerli fiyat girin.";
+  if (product.urunStogu < 0) return "Stok negatif olamaz.";
   if (Number(product.alisFiyati) < 0) return "Alış fiyatı negatif olamaz.";
   if (Number(product.karMarji) < 0) return "Kar marjı negatif olamaz.";
   return "";
@@ -426,14 +432,20 @@ async function openProductDetail(productId) {
     </div>
   `);
 
-  qs("#closeDetailBtn", overlay)?.addEventListener("click", () => overlay.remove());
-  qs("#printDetailBtn", overlay)?.addEventListener("click", () => window.print());
+  qs("#closeDetailBtn", overlay)?.addEventListener("click", () =>
+    overlay.remove(),
+  );
+  qs("#printDetailBtn", overlay)?.addEventListener("click", () =>
+    window.print(),
+  );
 }
 
 async function openCategoryEditor(categoryId) {
   if (!state.categories.length) await fetchCategories();
 
-  const category = state.categories.find((c) => String(c._id) === String(categoryId));
+  const category = state.categories.find(
+    (c) => String(c._id) === String(categoryId),
+  );
 
   if (!category) {
     alert("Kategori bulunamadı.");
@@ -515,12 +527,14 @@ async function openCategoryEditor(categoryId) {
 
   saveBtn?.addEventListener("click", async () => {
     const newName = nameInput.value.trim();
-    const subLines = [...new Set(
-      subsArea.value
-        .split("\n")
-        .map((v) => v.trim())
-        .filter(Boolean)
-    )].sort((a, b) => a.localeCompare(b, "tr"));
+    const subLines = [
+      ...new Set(
+        subsArea.value
+          .split("\n")
+          .map((v) => v.trim())
+          .filter(Boolean),
+      ),
+    ].sort((a, b) => a.localeCompare(b, "tr"));
 
     if (!newName) {
       msg.textContent = "Kategori adı boş olamaz.";
@@ -577,7 +591,9 @@ async function renderProductsTable() {
   const filtered = state.products.filter((product) => {
     const categoryMatch =
       !selectedCategory ||
-      String(product.urunKategori || "").trim().toLowerCase() === selectedCategory;
+      String(product.urunKategori || "")
+        .trim()
+        .toLowerCase() === selectedCategory;
 
     const searchPool = [
       product.urunAdi,
@@ -717,13 +733,23 @@ function fillProductsForm(product) {
   document.getElementById("urunModeli").value = product.urunModeli || "";
   document.getElementById("urunYili").value = product.urunYili || "";
   document.getElementById("urunAciklama").value = product.urunAciklama || "";
-  document.getElementById("urunFiyati").value = Number(product.urunFiyati || 0).toFixed(2);
+  document.getElementById("urunFiyati").value = Number(
+    product.urunFiyati || 0,
+  ).toFixed(2);
   document.getElementById("urunStogu").value = product.urunStogu ?? 0;
-  document.getElementById("alisFiyati").value = Number(product.alisFiyati || 0).toFixed(2);
-  document.getElementById("karMarji").value = Number(product.karMarji || 0).toFixed(2);
+  document.getElementById("alisFiyati").value = Number(
+    product.alisFiyati || 0,
+  ).toFixed(2);
+  document.getElementById("karMarji").value = Number(
+    product.karMarji || 0,
+  ).toFixed(2);
 
   urunKategori.value = product.urunKategori || "";
-  populateSubCategories(urunKategori, urunAltKategori, product.urunAltKategori || "");
+  populateSubCategories(
+    urunKategori,
+    urunAltKategori,
+    product.urunAltKategori || "",
+  );
 
   form.dataset.currentImageData = product.urunGorselData || "";
 
@@ -736,7 +762,7 @@ function fillProductsForm(product) {
   }
 
   document.getElementById("hesaplananSatis").textContent = formatPrice(
-    calculateSalePrice(product.alisFiyati, product.karMarji)
+    calculateSalePrice(product.alisFiyati, product.karMarji),
   );
 
   window.scrollTo({ top: 0, behavior: "smooth" });
@@ -765,7 +791,7 @@ async function mountProductsPage(editProductId = "") {
   fillSelect(
     filterCategory,
     state.categories.map((c) => c.kategoriAdi),
-    "Tüm kategoriler"
+    "Tüm kategoriler",
   );
 
   function updateCalculation() {
@@ -820,14 +846,14 @@ async function mountProductsPage(editProductId = "") {
     e.preventDefault();
     saveMessage.textContent = "";
 
- const editingId = form.dataset.editingId || "";
+    const editingId = form.dataset.editingId || "";
 
-const payload = buildProductPayload(
-  "",
-  form.dataset.currentImageData || ""
-);
+    const payload = buildProductPayload(
+      "",
+      form.dataset.currentImageData || "",
+    );
 
-const validationError = validateProductPayload(payload);
+    const validationError = validateProductPayload(payload);
 
     if (validationError) {
       saveMessage.textContent = validationError;
@@ -843,7 +869,13 @@ const validationError = validateProductPayload(payload);
         saveMessage.textContent = "Ürün başarıyla güncellendi.";
       } else {
         await createProduct(payload);
-        saveMessage.textContent = "Ürün başarıyla kaydedildi.";
+        if (editingId) {
+          await updateProduct(editingId, payload);
+          alert("Ürün güncellendi ✅");
+        } else {
+          await createProduct(payload);
+          alert("Ürün başarıyla eklendi ✅");
+        }
       }
 
       form.reset();
@@ -851,7 +883,7 @@ const validationError = validateProductPayload(payload);
       fillSelect(
         filterCategory,
         state.categories.map((c) => c.kategoriAdi),
-        "Tüm kategoriler"
+        "Tüm kategoriler",
       );
       await renderProductsTable();
     } catch (error) {
@@ -890,7 +922,8 @@ async function renderPanelProductList(selectedId = "") {
 
   const products = state.products.filter((p) => {
     const categoryMatch =
-      !categoryTerm || String(p.urunKategori || "").toLowerCase() === categoryTerm;
+      !categoryTerm ||
+      String(p.urunKategori || "").toLowerCase() === categoryTerm;
 
     const searchPool = [
       p.urunAdi,
@@ -943,7 +976,9 @@ function fillPanelForm(product) {
   form.dataset.editingId = product._id || product.id || "";
   form.dataset.currentImageData = product.urunGorselData || "";
 
-  document.getElementById("panelUrunAktif").value = String(isProductActive(product));
+  document.getElementById("panelUrunAktif").value = String(
+    isProductActive(product),
+  );
   document.getElementById("panelUrunAdi").value = product.urunAdi || "";
   document.getElementById("panelAracMarkasi").value = product.aracMarkasi || "";
   document.getElementById("panelUrunBarkodu").value = product.urunBarkodu || "";
@@ -952,11 +987,18 @@ function fillPanelForm(product) {
   document.getElementById("panelUrunMarkasi").value = product.urunMarkasi || "";
   document.getElementById("panelUrunModeli").value = product.urunModeli || "";
   document.getElementById("panelUrunYili").value = product.urunYili || "";
-  document.getElementById("panelUrunAciklama").value = product.urunAciklama || "";
-  document.getElementById("panelUrunFiyati").value = Number(product.urunFiyati || 0).toFixed(2);
+  document.getElementById("panelUrunAciklama").value =
+    product.urunAciklama || "";
+  document.getElementById("panelUrunFiyati").value = Number(
+    product.urunFiyati || 0,
+  ).toFixed(2);
   document.getElementById("panelUrunStogu").value = product.urunStogu ?? 0;
-  document.getElementById("panelAlisFiyati").value = Number(product.alisFiyati || 0).toFixed(2);
-  document.getElementById("panelKarMarji").value = Number(product.karMarji || 0).toFixed(2);
+  document.getElementById("panelAlisFiyati").value = Number(
+    product.alisFiyati || 0,
+  ).toFixed(2);
+  document.getElementById("panelKarMarji").value = Number(
+    product.karMarji || 0,
+  ).toFixed(2);
   document.getElementById("panelFormTitle").textContent =
     "Ürün Güncelle: " + (product.urunAdi || "-");
 
@@ -972,7 +1014,7 @@ function fillPanelForm(product) {
   }
 
   document.getElementById("panelHesaplananSatis").textContent = formatPrice(
-    calculateSalePrice(product.alisFiyati, product.karMarji)
+    calculateSalePrice(product.alisFiyati, product.karMarji),
   );
 }
 
@@ -999,7 +1041,7 @@ async function mountProductPanel(selectedProductId = "") {
   fillSelect(
     filterCategory,
     state.categories.map((c) => c.kategoriAdi),
-    "Tüm kategoriler"
+    "Tüm kategoriler",
   );
 
   function updateCalc() {
@@ -1013,11 +1055,11 @@ async function mountProductPanel(selectedProductId = "") {
   });
 
   searchInput.addEventListener("input", () =>
-    renderPanelProductList(form.dataset.editingId || selectedProductId || "")
+    renderPanelProductList(form.dataset.editingId || selectedProductId || ""),
   );
 
   filterCategory.addEventListener("change", () =>
-    renderPanelProductList(form.dataset.editingId || selectedProductId || "")
+    renderPanelProductList(form.dataset.editingId || selectedProductId || ""),
   );
 
   hesaplaBtn.addEventListener("click", updateCalc);
@@ -1051,18 +1093,18 @@ async function mountProductPanel(selectedProductId = "") {
       return;
     }
 
-const base = await fetchProductById(productId).catch(() => null);
-if (!base) {
-  saveMsg.textContent = "Lütfen önce soldan bir ürün seç.";
-  return;
-}
+    const base = await fetchProductById(productId).catch(() => null);
+    if (!base) {
+      saveMsg.textContent = "Lütfen önce soldan bir ürün seç.";
+      return;
+    }
 
-const payload = buildProductPayload(
-  "panel",
-  form.dataset.currentImageData || base?.urunGorselData || ""
-);
+    const payload = buildProductPayload(
+      "panel",
+      form.dataset.currentImageData || base?.urunGorselData || "",
+    );
 
-const validationError = validateProductPayload(payload);
+    const validationError = validateProductPayload(payload);
 
     if (validationError) {
       saveMsg.textContent = validationError;
@@ -1087,7 +1129,9 @@ const validationError = validateProductPayload(payload);
       return;
     }
 
-    const product = state.products.find((p) => String(p._id) === String(productId));
+    const product = state.products.find(
+      (p) => String(p._id) === String(productId),
+    );
     const productName = product?.urunAdi || "Ürün";
 
     if (!confirm(`"${productName}" silinsin mi?`)) return;
@@ -1109,7 +1153,7 @@ const validationError = validateProductPayload(payload);
 
   if (selectedProductId) {
     currentProduct = state.products.find(
-      (p) => String(p._id) === String(selectedProductId)
+      (p) => String(p._id) === String(selectedProductId),
     );
   }
 
@@ -1134,13 +1178,14 @@ async function renderCategoryTable() {
   await fetchCategories();
 
   if (!state.categories.length) {
-    tbody.innerHTML = '<tr><td colspan="3" class="mini">Kategori yok.</td></tr>';
+    tbody.innerHTML =
+      '<tr><td colspan="3" class="mini">Kategori yok.</td></tr>';
     return;
   }
 
   tbody.innerHTML = state.categories
     .sort((a, b) =>
-      String(a.kategoriAdi).localeCompare(String(b.kategoriAdi), "tr")
+      String(a.kategoriAdi).localeCompare(String(b.kategoriAdi), "tr"),
     )
     .map((category) => {
       const subs = category.altKategoriler || [];
@@ -1151,7 +1196,9 @@ async function renderCategoryTable() {
           <td>
             ${
               subs.length
-                ? subs.map((s) => `<span class="pill">${escapeHtml(s)}</span>`).join(" ")
+                ? subs
+                    .map((s) => `<span class="pill">${escapeHtml(s)}</span>`)
+                    .join(" ")
                 : '<span class="mini">Alt kategori yok</span>'
             }
           </td>
@@ -1180,9 +1227,16 @@ async function renderCategoryTable() {
         await fetchCategories();
         await renderCategoryTable();
 
-        const existingCategorySelect = document.getElementById("existingCategorySelect");
+        const existingCategorySelect = document.getElementById(
+          "existingCategorySelect",
+        );
         if (existingCategorySelect) {
-          await populateCategorySelect(existingCategorySelect, true, "", "Kategori seçin");
+          await populateCategorySelect(
+            existingCategorySelect,
+            true,
+            "",
+            "Kategori seçin",
+          );
         }
 
         alert("Kategori silindi.");
@@ -1201,11 +1255,18 @@ async function mountCategoriesPage() {
   const newSubCategoryName = document.getElementById("newSubCategoryName");
   const addCategoryBtn = document.getElementById("addCategoryBtn");
   const addSubCategoryBtn = document.getElementById("addSubCategoryBtn");
-  const existingCategorySelect = document.getElementById("existingCategorySelect");
+  const existingCategorySelect = document.getElementById(
+    "existingCategorySelect",
+  );
   const categoryMessage = document.getElementById("categoryMessage");
 
   await ensureBootstrapData();
-  await populateCategorySelect(existingCategorySelect, true, "", "Kategori seçin");
+  await populateCategorySelect(
+    existingCategorySelect,
+    true,
+    "",
+    "Kategori seçin",
+  );
   await renderCategoryTable();
 
   addCategoryBtn.addEventListener("click", async () => {
@@ -1216,7 +1277,11 @@ async function mountCategoriesPage() {
       return;
     }
 
-    if (state.categories.some((c) => c.kategoriAdi.toLowerCase() === category.toLowerCase())) {
+    if (
+      state.categories.some(
+        (c) => c.kategoriAdi.toLowerCase() === category.toLowerCase(),
+      )
+    ) {
       categoryMessage.textContent = "Bu kategori zaten mevcut.";
       return;
     }
@@ -1231,7 +1296,12 @@ async function mountCategoriesPage() {
       newCategoryName.value = "";
 
       await ensureBootstrapData();
-      await populateCategorySelect(existingCategorySelect, true, "", "Kategori seçin");
+      await populateCategorySelect(
+        existingCategorySelect,
+        true,
+        "",
+        "Kategori seçin",
+      );
       await renderCategoryTable();
     } catch (error) {
       console.error("Kategori ekleme hatası:", error);
@@ -1269,7 +1339,7 @@ async function mountCategoriesPage() {
       await updateCategory(found._id, {
         kategoriAdi: found.kategoriAdi,
         altKategoriler: [...list, subCategory].sort((a, b) =>
-          a.localeCompare(b, "tr")
+          a.localeCompare(b, "tr"),
         ),
       });
 
@@ -1277,7 +1347,12 @@ async function mountCategoriesPage() {
       newSubCategoryName.value = "";
 
       await ensureBootstrapData();
-      await populateCategorySelect(existingCategorySelect, true, found.kategoriAdi, "Kategori seçin");
+      await populateCategorySelect(
+        existingCategorySelect,
+        true,
+        found.kategoriAdi,
+        "Kategori seçin",
+      );
       await renderCategoryTable();
     } catch (error) {
       console.error("Alt kategori ekleme hatası:", error);
