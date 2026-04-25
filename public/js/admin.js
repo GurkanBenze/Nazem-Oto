@@ -869,13 +869,15 @@ async function mountProductsPage(editProductId = "") {
         saveMessage.textContent = "Ürün başarıyla güncellendi.";
       } else {
         await createProduct(payload);
-        if (editingId) {
-          await updateProduct(editingId, payload);
-          alert("Ürün güncellendi ✅");
-        } else {
-          await createProduct(payload);
-          alert("Ürün başarıyla eklendi ✅");
-        }
+        await createProduct(payload);
+
+        saveMessage.textContent = "Ürün başarıyla kaydedildi ✅";
+        saveMessage.style.color = "#00ffae";
+        saveMessage.style.fontWeight = "600";
+
+        setTimeout(() => {
+          saveMessage.textContent = "";
+        }, 3000);
       }
 
       form.reset();
