@@ -860,7 +860,7 @@ async function mountProductsPage(editProductId = "") {
       return;
     }
 
-    try {
+   try {
       if (editingId) {
         const base = await fetchProductById(editingId).catch(() => null);
         payload.urunGorselData =
@@ -869,7 +869,6 @@ async function mountProductsPage(editProductId = "") {
         saveMessage.textContent = "Ürün başarıyla güncellendi.";
       } else {
         await createProduct(payload);
-
         saveMessage.textContent = "Ürün başarıyla kaydedildi.";
       }
 
@@ -878,7 +877,7 @@ async function mountProductsPage(editProductId = "") {
       fillSelect(
         filterCategory,
         state.categories.map((c) => c.kategoriAdi),
-        "Tüm kategoriler",
+        "Tüm kategoriler"
       );
       await renderProductsTable();
     } catch (error) {
