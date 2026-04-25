@@ -860,30 +860,47 @@ async function mountProductsPage(editProductId = "") {
       return;
     }
 
-   try {
-      if (editingId) {
-        const base = await fetchProductById(editingId).catch(() => null);
-        payload.urunGorselData =
-          form.dataset.currentImageData || base?.urunGorselData || "";
-        await updateProduct(editingId, payload);
-        saveMessage.textContent = "Ürün başarıyla güncellendi.";
-      } else {
-        await createProduct(payload);
-        saveMessage.textContent = "Ürün başarıyla kaydedildi.";
-      }
+ try {
+  if (editingId) {
+    const base = await fetchProductById(editingId).catch(() => null);
+    payload.urunGorselData =
+      form.dataset.currentImageData || base?.urunGorselData || "";
 
-      form.reset();
-      await ensureBootstrapData();
-      fillSelect(
-        filterCategory,
-        state.categories.map((c) => c.kategoriAdi),
-        "Tüm kategoriler"
-      );
-      await renderProductsTable();
-    } catch (error) {
-      console.error("Ürün kayıt hatası:", error);
-      saveMessage.textContent = "İşlem sırasında hata oluştu.";
-    }
+    await updateProduct(editingId, payload);
+
+    saveMessage.textContent = "Ürün başarıyla güncellendi ✔";
+  } else {
+    await createProduct(payload);
+
+    saveMessage.textContent = "Ürün başarıyla kaydedildi ✔";
+  }
+
+  saveMessage.style.display = "block";
+  saveMessage.style.color = "#00ffae";
+  saveMessage.style.background = "rgba(0, 255, 174, 0.12)";
+  saveMessage.style.border = "1px solid rgba(0, 255, 174, 0.35)";
+  saveMessage.style.padding = "10px 12px";
+  saveMessage.style.borderRadius = "8px";
+  saveMessage.style.marginTop = "10px";
+  saveMessage.style.fontWeight = "700";
+
+  await ensureBootstrapData();
+  fillSelect(
+    filterCategory,
+    state.categories.map((c) => c.kategoriAdi),
+    "Tüm kategoriler",
+  );
+  await renderProductsTable();
+
+  setTimeout(() => {
+    form.reset();
+    saveMessage.textContent = "";
+    saveMessage.style.display = "none";
+  }, 2500);
+} catch (error) {
+  console.error("Ürün kayıt hatası:", error);
+  saveMessage.textContent = "İşlem sırasında hata oluştu.";
+}
   });
 
   await renderProductsTable();
