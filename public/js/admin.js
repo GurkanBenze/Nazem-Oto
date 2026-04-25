@@ -281,7 +281,17 @@ if (product.urunStogu < 0) return "Stok negatif olamaz.";
 }
 
 function buildProductPayload(prefix = "", baseImageData = "") {
-  const get = (id) => document.getElementById(`${prefix}${id}`);
+  const lowerFirst = (text) => text.charAt(0).toLowerCase() + text.slice(1);
+
+  const get = (id) => {
+    return (
+      document.getElementById(`${prefix}${id}`) ||
+      document.getElementById(`${prefix}${lowerFirst(id)}`) ||
+      document.getElementById(lowerFirst(id)) ||
+      document.getElementById(id)
+    );
+  };
+
   const val = (id) => get(id)?.value?.trim() || "";
   const num = (id) => Number(val(id)) || 0;
 
